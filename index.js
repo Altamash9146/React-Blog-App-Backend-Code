@@ -6,7 +6,7 @@ const index = express()
 index.use(express.json())
 index.use(express.urlencoded({ extended: true }));
 index.use(cors({
-    origin:'http://localhost:3000',
+    origin:'*',
     methods:['GET','POST'],
     allowedHeaders:['Content-Type', 'Authorization']
 }))
