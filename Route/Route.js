@@ -19,9 +19,10 @@ route.get('/api/blog/:cat',(req,res)=>{
 const users = [];
 route.post('/register', async (req, res) => {
   const data = req.body
+  // console.log(data);
   try {
     const { FirstName, LastName,EmailAdress,password} = data;
-    console.log(data);
+    // console.log(data);
     if (users.find(user => user.EmailAdress === EmailAdress)) {
       return res.status(409).json({ message: 'User already exists' });
     }
@@ -58,15 +59,16 @@ route.post('/login', async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User is not registered' });
     }
-
+      // console.log(user.FirstName);
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     const token = jwt.sign({ userId: user.id }, 'dnabduiauifbuibfibui',{expiresIn:"2d"});
+    const FirstName = user.FirstName
 
-    return res.status(200).json({ message: 'User has logged in successfully', token });
+    return res.status(200).json({ message: 'User has logged in successfully', token , FirstName});
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Login failed' });
